@@ -1,0 +1,27 @@
+﻿@page "/landing"
+
+<PageTitle>Landing</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app!!
+
+@if (isAuthenticated)
+{
+    <p>You are logged in!</p>
+}
+else
+{
+    <p>You are not logged in. Please log in to access this page.</p>
+}
+
+@code {
+    private bool isAuthenticated = false;
+
+    protected override void OnInitialized()
+    {
+        // Check if the user is authenticated (you can replace this with your actual authentication logic)
+        isAuthenticated = true; // For demonstration purposes
+    }
+}
+

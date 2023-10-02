@@ -28,8 +28,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/RobertPrice/Desktop/School/Sys/StudenTrackerApp/StudentAttendanceTracker/StudentAttendanceTracker/StudentAttendanceTracker/Pages/Index.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+[C:/Users/RobertPrice/Desktop/School/Sys/StudenTrackerApp/StudentAttendanceTracker/StudentAttendanceTracker/StudentAttendanceTracker/Pages/Landing.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGFuZGluZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/RobertPrice/Desktop/School/Sys/StudenTrackerApp/StudentAttendanceTracker/StudentAttendanceTracker/StudentAttendanceTracker/Pages/LoginPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5QYWdlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/RobertPrice/Desktop/School/Sys/StudenTrackerApp/StudentAttendanceTracker/StudentAttendanceTracker/StudentAttendanceTracker/Shared/SurveyPrompt.razor]
