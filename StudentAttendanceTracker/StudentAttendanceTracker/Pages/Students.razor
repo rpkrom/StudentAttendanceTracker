@@ -1,0 +1,90 @@
+﻿@page "/students"
+
+@using System.Collections.Generic
+@using System.Data.SqlClient
+@using Microsoft.AspNetCore.Components
+@using Microsoft.Extensions.Configuration
+
+<h3>Students</h3>
+
+<!-- Table to display students -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in students)
+        {
+            <tr>
+                <td>@student.Username</td>
+                <td>@student.Password</td>
+                <td>
+                    <button class="btn btn-danger" @onclick="() => DeleteStudent(student.Id)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Add Student Form -->
+<h4>Add Student</h4>
+<div class="form-group">
+    <input class="form-control" @bind="newStudent.Username" placeholder="Username" />
+    <input class="form-control" @bind="newStudent.Password" placeholder="Password" />
+    <button class="btn btn-primary" @onclick="AddStudent">Add Student</button>
+</div>
+
+@code {
+    [Inject]
+    private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; }
+    private List<Student> students = new List<Student>();
+    private Student newStudent = new Student();
+
+    // Load Students when the component initializes
+    protected override void OnInitialized()
+    {
+        LoadStudents();
+    }
+
+    // Load Students from the database
+    private void LoadStudents()
+    {
+        using (var dbContext = new ApplicationDbContext(DbContextOptions))
+        {
+            students = dbContext.Students.ToList();
+        }
+    }
+
+    // Add a new Student to the database
+    private void AddStudent()
+    {
+        using (var dbContext = new ApplicationDbContext(DbContextOptions))
+        {
+            dbContext.Students.Add(newStudent);
+            dbContext.SaveChanges();
+
+            newStudent = new Student(); // Clear the input fields
+            LoadStudents(); // Refresh the Student list
+        }
+    }
+
+    // Delete a Student from the database
+    private void DeleteStudent(int studentId)
+    {
+        using (var dbContext = new ApplicationDbContext(DbContextOptions))
+        {
+            var studentToDelete = dbContext.Students.FirstOrDefault(u => u.Id == studentId);
+            if (studentToDelete != null)
+            {
+                dbContext.Students.Remove(studentToDelete);
+                dbContext.SaveChanges();
+                students.RemoveAll(u => u.Id == studentId); // Remove the student from the list
+            }
+        }
+    }
+
+}

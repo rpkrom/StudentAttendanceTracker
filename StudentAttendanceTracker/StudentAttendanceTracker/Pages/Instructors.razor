@@ -1,0 +1,90 @@
+﻿@page "/instructors"
+
+@using System.Collections.Generic
+@using System.Data.SqlClient
+@using Microsoft.AspNetCore.Components
+@using Microsoft.Extensions.Configuration
+
+<h3>Instructors</h3>
+
+<!-- Table to display instructors -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var instructor in instructors)
+        {
+            <tr>
+                <td>@instructor.Username</td>
+                <td>@instructor.Password</td>
+                <td>
+                    <button class="btn btn-danger" @onclick="() => DeleteInstructor(instructor.Id)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Add Instructor Form -->
+<h4>Add Instructor</h4>
+<div class="form-group">
+    <input class="form-control" @bind="newInstructor.Username" placeholder="Username" />
+    <input class="form-control" @bind="newInstructor.Password" placeholder="Password" />
+    <button class="btn btn-primary" @onclick="AddInstructor">Add Instructor</button>
+</div>
+
+@code {
+    [Inject]
+    private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; }
+    private List<Instructor> instructors = new List<Instructor>();
+    private Instructor newInstructor = new Instructor();
+
+    // Load Instructors when the component initializes
+    protected override void OnInitialized()
+    {
+        LoadInstructors();
+    }
+
+    // Load Instructors from the database
+    private void LoadInstructors()
+    {
+        using (var dbContext = new ApplicationDbContext(DbContextOptions))
+        {
+            instructors = dbContext.Instructors.ToList();
+        }
+    }
+
+    // Add a new Instructor to the database
+    private void AddInstructor()
+    {
+        using (var dbContext = new ApplicationDbContext(DbContextOptions))
+        {
+            dbContext.Instructors.Add(newInstructor);
+            dbContext.SaveChanges();
+
+            newInstructor = new Instructor(); // Clear the input fields
+            LoadInstructors(); // Refresh the Instructor list
+        }
+    }
+
+    // Delete a Instructor from the database
+    private void DeleteInstructor(int instructorId)
+    {
+        using (var dbContext = new ApplicationDbContext(DbContextOptions))
+        {
+            var instructorToDelete = dbContext.Instructors.FirstOrDefault(u => u.Id == instructorId);
+            if (instructorToDelete != null)
+            {
+                dbContext.Instructors.Remove(instructorToDelete);
+                dbContext.SaveChanges();
+                instructors.RemoveAll(u => u.Id == instructorId); // Remove the student from the list
+            }
+        }
+    }
+
+}
