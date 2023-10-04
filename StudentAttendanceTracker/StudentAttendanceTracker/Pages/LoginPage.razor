@@ -10,11 +10,11 @@
     <div class="form-group">
         <div class="radio-buttons">
             <div class="radio-button">
-                <input type="radio" id="instructor" name="role" value="instructor" checked="checked" @onchange="ToggleAccessCodeField" />
+                <input type="radio" id="instructor" name="role" value="instructor" checked="@IsInstructorChecked" @onchange="ToggleAccessCodeField" />
                 <label for="instructor">Instructor</label>
             </div>
             <div class="radio-button">
-                <input type="radio" id="student" name="role" value="student" @onchange="ToggleAccessCodeField" />
+                <input type="radio" id="student" name="role" value="student" checked="@IsStudentChecked" @onchange="ToggleAccessCodeField" />
                 <label for="student">Student</label>
             </div>
         </div>
@@ -69,6 +69,13 @@
 
     private bool isLoading = false;
 
+    private bool IsInstructorChecked => selectedRole == "instructor";
+    private bool IsStudentChecked => selectedRole == "student";
+
+    protected override void OnInitialized()
+    {
+        selectedRole = "instructor"; // Set the default selected role
+    }
 
     private void ToggleAccessCodeField(ChangeEventArgs e)
     {
@@ -115,9 +122,6 @@
                             NavigationManager.NavigateTo("/landing", true);
                         }
                     }
-                }
-                else
-                {
                     if (username == "admin" && password == "admin")
                     {
                         UserInfoService.UserInfo.IsAdmin = true;

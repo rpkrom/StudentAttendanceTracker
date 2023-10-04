@@ -95,10 +95,11 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[AccessCodes](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Code] [nvarchar](50) NOT NULL,
 	[Expiration] [datetime] NOT NULL,
-	[Course_Id] [nchar](10) NOT NULL,
-	[ID] [int] IDENTITY(1,1) NOT NULL
+	[Course_Id] [int] NOT NULL,
+	[Course_Name] [nvarchar](50) NOT NULL,
 ) ON [PRIMARY]
 GO
 /****** Object:  Table [dbo].[Instructors]    Script Date: 10/2/2023 9:05:58 PM ******/
