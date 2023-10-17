@@ -13,12 +13,12 @@ CREATE TABLE [dbo].[AccessCodes](
 	[Course_Name] [nvarchar](50) NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Attendences]    Script Date: 10/4/2023 1:10:51 PM ******/
+/****** Object:  Table [dbo].[Attendances]    Script Date: 10/4/2023 1:10:51 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[Attendences](
+CREATE TABLE [dbo].[Attendances](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Course_Id] [int] NOT NULL,
 	[Student_Id] [int] NOT NULL,
