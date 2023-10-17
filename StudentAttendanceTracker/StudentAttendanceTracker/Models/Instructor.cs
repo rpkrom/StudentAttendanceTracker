@@ -1,5 +1,6 @@
 ﻿namespace StudentAttendanceTracker.Models
 {
+    //This model is used for the CRUD for Instructors
     public class Instructor
     {
         public int Id { get; set; }

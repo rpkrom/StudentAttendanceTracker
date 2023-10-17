@@ -1,5 +1,6 @@
 ﻿namespace StudentAttendanceTracker.Models
 {
+    //This model is used for the CRUD for Access Codes
     public class AccessCode
     {
         public int Id { get; set; } 

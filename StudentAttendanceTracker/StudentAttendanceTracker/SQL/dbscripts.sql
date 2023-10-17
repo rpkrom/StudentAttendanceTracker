@@ -1,95 +1,6 @@
-USE [master]
-GO
-/****** Object:  Database [StudentTracker]    Script Date: 10/2/2023 9:05:58 PM ******/
-CREATE DATABASE [StudentTracker]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'StudentTracker', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\StudentTracker.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
- LOG ON 
-( NAME = N'StudentTracker_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\StudentTracker_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
- WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
-GO
-ALTER DATABASE [StudentTracker] SET COMPATIBILITY_LEVEL = 160
-GO
-IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
-begin
-EXEC [StudentTracker].[dbo].[sp_fulltext_database] @action = 'enable'
-end
-GO
-ALTER DATABASE [StudentTracker] SET ANSI_NULL_DEFAULT OFF 
-GO
-ALTER DATABASE [StudentTracker] SET ANSI_NULLS OFF 
-GO
-ALTER DATABASE [StudentTracker] SET ANSI_PADDING OFF 
-GO
-ALTER DATABASE [StudentTracker] SET ANSI_WARNINGS OFF 
-GO
-ALTER DATABASE [StudentTracker] SET ARITHABORT OFF 
-GO
-ALTER DATABASE [StudentTracker] SET AUTO_CLOSE OFF 
-GO
-ALTER DATABASE [StudentTracker] SET AUTO_SHRINK OFF 
-GO
-ALTER DATABASE [StudentTracker] SET AUTO_UPDATE_STATISTICS ON 
-GO
-ALTER DATABASE [StudentTracker] SET CURSOR_CLOSE_ON_COMMIT OFF 
-GO
-ALTER DATABASE [StudentTracker] SET CURSOR_DEFAULT  GLOBAL 
-GO
-ALTER DATABASE [StudentTracker] SET CONCAT_NULL_YIELDS_NULL OFF 
-GO
-ALTER DATABASE [StudentTracker] SET NUMERIC_ROUNDABORT OFF 
-GO
-ALTER DATABASE [StudentTracker] SET QUOTED_IDENTIFIER OFF 
-GO
-ALTER DATABASE [StudentTracker] SET RECURSIVE_TRIGGERS OFF 
-GO
-ALTER DATABASE [StudentTracker] SET  DISABLE_BROKER 
-GO
-ALTER DATABASE [StudentTracker] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
-GO
-ALTER DATABASE [StudentTracker] SET DATE_CORRELATION_OPTIMIZATION OFF 
-GO
-ALTER DATABASE [StudentTracker] SET TRUSTWORTHY OFF 
-GO
-ALTER DATABASE [StudentTracker] SET ALLOW_SNAPSHOT_ISOLATION OFF 
-GO
-ALTER DATABASE [StudentTracker] SET PARAMETERIZATION SIMPLE 
-GO
-ALTER DATABASE [StudentTracker] SET READ_COMMITTED_SNAPSHOT OFF 
-GO
-ALTER DATABASE [StudentTracker] SET HONOR_BROKER_PRIORITY OFF 
-GO
-ALTER DATABASE [StudentTracker] SET RECOVERY FULL 
-GO
-ALTER DATABASE [StudentTracker] SET  MULTI_USER 
-GO
-ALTER DATABASE [StudentTracker] SET PAGE_VERIFY CHECKSUM  
-GO
-ALTER DATABASE [StudentTracker] SET DB_CHAINING OFF 
-GO
-ALTER DATABASE [StudentTracker] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
-GO
-ALTER DATABASE [StudentTracker] SET TARGET_RECOVERY_TIME = 60 SECONDS 
-GO
-ALTER DATABASE [StudentTracker] SET DELAYED_DURABILITY = DISABLED 
-GO
-ALTER DATABASE [StudentTracker] SET ACCELERATED_DATABASE_RECOVERY = OFF  
-GO
-EXEC sys.sp_db_vardecimal_storage_format N'StudentTracker', N'ON'
-GO
-ALTER DATABASE [StudentTracker] SET QUERY_STORE = ON
-GO
-ALTER DATABASE [StudentTracker] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
-GO
 USE [StudentTracker]
 GO
-/****** Object:  User [stadmin]    Script Date: 10/2/2023 9:05:58 PM ******/
-CREATE USER [stadmin] FOR LOGIN [stadmin] WITH DEFAULT_SCHEMA=[dbo]
-GO
-ALTER ROLE [db_owner] ADD MEMBER [stadmin]
-GO
-/****** Object:  Table [dbo].[AccessCodes]    Script Date: 10/2/2023 9:05:58 PM ******/
+/****** Object:  Table [dbo].[AccessCodes]    Script Date: 10/4/2023 1:10:51 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -99,10 +10,20 @@ CREATE TABLE [dbo].[AccessCodes](
 	[Code] [nvarchar](50) NOT NULL,
 	[Expiration] [datetime] NOT NULL,
 	[Course_Id] [int] NOT NULL,
-	[Course_Name] [nvarchar](50) NOT NULL,
+	[Course_Name] [nvarchar](50) NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Instructors]    Script Date: 10/2/2023 9:05:58 PM ******/
+/****** Object:  Table [dbo].[Courses]    Script Date: 10/4/2023 1:10:51 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Courses](
+	[Course_Name] [nvarchar](50) NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Instructors]    Script Date: 10/4/2023 1:10:51 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -113,7 +34,7 @@ CREATE TABLE [dbo].[Instructors](
 	[ID] [int] IDENTITY(1,1) NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Students]    Script Date: 10/2/2023 9:05:58 PM ******/
+/****** Object:  Table [dbo].[Students]    Script Date: 10/4/2023 1:10:51 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -126,15 +47,29 @@ CREATE TABLE [dbo].[Students](
 GO
 SET IDENTITY_INSERT [dbo].[AccessCodes] ON 
 GO
-INSERT [dbo].[AccessCodes] ([Code], [Expiration], [Course_Id], [ID]) VALUES (N'1234', CAST(N'2023-10-02T18:34:23.000' AS DateTime), N'1         ', 1)
+INSERT [dbo].[AccessCodes] ([ID], [Code], [Expiration], [Course_Id], [Course_Name]) VALUES (1, N'24288', CAST(N'2023-10-04T12:46:23.297' AS DateTime), 2, N'Databases')
+GO
+INSERT [dbo].[AccessCodes] ([ID], [Code], [Expiration], [Course_Id], [Course_Name]) VALUES (2, N'34609', CAST(N'2023-10-04T12:46:37.630' AS DateTime), 1, N'Systems')
+GO
+INSERT [dbo].[AccessCodes] ([ID], [Code], [Expiration], [Course_Id], [Course_Name]) VALUES (3, N'77645', CAST(N'2023-10-04T12:46:39.580' AS DateTime), 3, N'Web Dev')
 GO
 SET IDENTITY_INSERT [dbo].[AccessCodes] OFF
 GO
+SET IDENTITY_INSERT [dbo].[Courses] ON 
+GO
+INSERT [dbo].[Courses] ([Course_Name], [Id]) VALUES (N'Systems', 1)
+GO
+INSERT [dbo].[Courses] ([Course_Name], [Id]) VALUES (N'Databases', 2)
+GO
+INSERT [dbo].[Courses] ([Course_Name], [Id]) VALUES (N'Web Dev', 3)
+GO
+SET IDENTITY_INSERT [dbo].[Courses] OFF
+GO
 SET IDENTITY_INSERT [dbo].[Instructors] ON 
 GO
-INSERT [dbo].[Instructors] ([Username], [Password], [ID]) VALUES (N'test', N'test', 1)
+INSERT [dbo].[Instructors] ([Username], [Password], [ID]) VALUES (N'instructor@stlcc.edu', N'test', 1002)
 GO
-INSERT [dbo].[Instructors] ([Username], [Password], [ID]) VALUES (N'foo', N'bar', 2)
+INSERT [dbo].[Instructors] ([Username], [Password], [ID]) VALUES (N'test@stlcc.edu', N'test', 1003)
 GO
 SET IDENTITY_INSERT [dbo].[Instructors] OFF
 GO
@@ -145,8 +80,4 @@ GO
 INSERT [dbo].[Students] ([Username], [Password], [ID]) VALUES (N'foo@bar.com', N'test', 2)
 GO
 SET IDENTITY_INSERT [dbo].[Students] OFF
-GO
-USE [master]
-GO
-ALTER DATABASE [StudentTracker] SET  READ_WRITE 
 GO
