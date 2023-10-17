@@ -1,6 +1,6 @@
 ﻿namespace StudentAttendanceTracker.Models
 {
-    //This model is used for the CRUD for Users Information
+    //This model is used for  Users Information
     public class UserInfo
     {
         public string Username { get; set; }

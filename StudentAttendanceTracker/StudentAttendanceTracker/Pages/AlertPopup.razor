@@ -1,0 +1,56 @@
+﻿@page "/alertpopup"
+
+<style>
+    .alert-popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
+
+    .alert-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        text-align: center;
+    }
+
+    .visible {
+        display: block;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+</style>
+
+<div class="alert-popup @(IsVisible ? "visible" : "hidden")">
+    <div class="alert-content">
+        <p>@Message</p>
+        <button @onclick="Close">OK</button>
+    </div>
+</div>
+
+@code {
+    private string Message;
+    private bool IsVisible;
+
+    public void Show(string message)
+    {
+        Message = message;
+        IsVisible = true;
+    }
+
+    private void Close()
+    {
+        IsVisible = false;
+    }
+}

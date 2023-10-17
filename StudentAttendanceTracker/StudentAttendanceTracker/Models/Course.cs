@@ -4,6 +4,6 @@
     public class Course
     {
         public int Id { get; set; }
-        public string Course_Name { get; set; }
+        public string Course_Name { get; set; } = string.Empty;
     }
 }

@@ -1,0 +1,153 @@
+﻿@page "/reports"
+
+@using System.Collections.Generic
+@using Microsoft.AspNetCore.Components
+@using Microsoft.Extensions.Configuration
+@*<AlertPopup @ref="alertPopup"></AlertPopup>*@
+
+<h3>Reports</h3>
+ @*This page is for generating attendance reports based on which course is selected*@
+<!-- Dropdown for course_name -->
+<div class="form-group">
+    <label for="courseName">Select Course:</label>
+    <select class="form-control" id="courseName" style="width: 300px;" @bind="selectedCourse.Id">
+        @foreach (var course in courses)
+        {
+            <option value="@course.Id">@course.Course_Name</option>
+        }
+    </select>
+</div>
+
+<!-- Button to generate reports -->
+<button class="btn btn-primary" style="padding: 10px;" @onclick="GenerateReports">Generate Reports</button>
+<button class="btn btn-success" style="padding: 10px;" @onclick="SaveReportsToFile">Save to Text File</button>
+
+@if (DisplayAlert)
+{
+    <div style="width: 300px;" class="alert alert-success fade-in" role="alert">
+        File download complete! Check your downloads folder.
+        <button class="close" @onclick="CloseAlert">
+            <span aria-hidden="true">&times;</span> 
+        </button>
+    </div>
+}
+
+<!-- Display report lines -->
+@if (attendences != null && attendences.Any())
+{
+    <h4>Report Lines</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Student</th>
+                <th>Attendance Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var report in attendences)
+            {
+                <tr>
+                    <td>@GetCourseInfo(@report.Course_Id)</td>
+                    <td>@GetStudentInfo(@report.Student_Id)</td>
+                    <td>@report.CreatedDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Inject]
+    private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; }
+    private List<Course> courses = new List<Course>(); 
+    private Course selectedCourse = new Course();
+    private List<Attendence> attendences = new List<Attendence>();
+    //private AlertPopup alertPopup;
+    public bool DisplayAlert = false;
+
+    protected override void OnInitialized()
+    {
+        LoadCourses();
+    }
+
+    // Load courses from the database
+    private void LoadCourses()
+    {
+        using (var dbContext = new ApplicationDbContext(DbContextOptions))
+        {
+            courses = dbContext.Courses.ToList();
+        }
+    }
+
+    //get student info
+    private string GetStudentInfo(int id)
+    {
+        var studentName = "";
+        using (var dbContext = new ApplicationDbContext(DbContextOptions))
+        {
+            var student = dbContext.Students.FirstOrDefault(s => s.Id == id);
+            studentName = student.Username;
+            return studentName;
+        }
+    }
+
+    //get course info
+    private string GetCourseInfo(int id)
+    {
+        var courseName = "";
+        using (var dbContext = new ApplicationDbContext(DbContextOptions))
+        {
+            var course = dbContext.Courses.FirstOrDefault(s => s.Id == id);
+            courseName = course.Course_Name;
+            return courseName;
+        }
+    }
+
+    // Generate reports when the button is clicked
+    private void GenerateReports()
+    {
+        using (var dbContext = new ApplicationDbContext(DbContextOptions))
+        {
+            attendences = dbContext.Attendences
+                .Where(r => r.Course_Id == selectedCourse.Id)
+                .ToList();
+        }
+    }
+
+    private void SaveReportsToFile()
+    {
+        PrintReportsToFile(attendences);
+        //alertPopup.Show("File download complete. Check your downloads folder.");
+        DisplayAlert = true;
+    }
+
+    private void CloseAlert()
+    {
+        DisplayAlert = false; 
+    }
+
+    private void PrintReportsToFile(List<Attendence> reports)
+    {
+        // Define the file path and name for the text file
+        string downloadsFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
+        string filePath = Path.Combine(downloadsFolder, "AttendanceReports.txt");
+
+        try
+        {
+            // Open or create the text file for writing
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                foreach (var report in reports)
+                {
+                    string reportLine = $"{GetCourseInfo(report.Course_Id)}, {GetStudentInfo(report.Student_Id)}, {report.CreatedDate}";
+                    writer.WriteLine(reportLine);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error writing to file: {ex.Message}");
+        }
+    }
+}

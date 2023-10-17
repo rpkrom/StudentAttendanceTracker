@@ -13,6 +13,18 @@ CREATE TABLE [dbo].[AccessCodes](
 	[Course_Name] [nvarchar](50) NOT NULL
 ) ON [PRIMARY]
 GO
+/****** Object:  Table [dbo].[Attendences]    Script Date: 10/4/2023 1:10:51 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Attendences](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Course_Id] [int] NOT NULL,
+	[Student_Id] [int] NOT NULL,
+	[CreatedDate] [date] 
+) ON [PRIMARY]
+GO
 /****** Object:  Table [dbo].[Courses]    Script Date: 10/4/2023 1:10:51 PM ******/
 SET ANSI_NULLS ON
 GO
@@ -20,7 +32,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Courses](
 	[Course_Name] [nvarchar](50) NULL,
-	[Id] [int] IDENTITY(1,1) NOT NULL
+	[ID] [int] IDENTITY(1,1) NOT NULL
 ) ON [PRIMARY]
 GO
 /****** Object:  Table [dbo].[Instructors]    Script Date: 10/4/2023 1:10:51 PM ******/

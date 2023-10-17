@@ -20,6 +20,10 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/RobertPrice/Desktop/School/Sys/StudenTrackerApp/StudentAttendanceTracker/StudentAttendanceTracker/StudentAttendanceTracker/Pages/AlertPopup.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWxlcnRQb3B1cC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/RobertPrice/Desktop/School/Sys/StudenTrackerApp/StudentAttendanceTracker/StudentAttendanceTracker/StudentAttendanceTracker/Pages/Codes.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29kZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -46,6 +50,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/RobertPrice/Desktop/School/Sys/StudenTrackerApp/StudentAttendanceTracker/StudentAttendanceTracker/StudentAttendanceTracker/Pages/LoginPage.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5QYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/RobertPrice/Desktop/School/Sys/StudenTrackerApp/StudentAttendanceTracker/StudentAttendanceTracker/StudentAttendanceTracker/Pages/Reports.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/RobertPrice/Desktop/School/Sys/StudenTrackerApp/StudentAttendanceTracker/StudentAttendanceTracker/StudentAttendanceTracker/Pages/Students.razor]
