@@ -31,7 +31,7 @@
     {
         <div class="form-group">
             <label for="accessCode">Access Code</label>
-            <input id="accessCode" class="form-control" @bind-value="accessCode" />
+            <input id="accessCode" class="form-control" style="width: 300px;" @bind-value="accessCode" />
         </div>
     }
     <button class="btn btn-primary" @onclick="LoginClick" disabled="@isLoading">
@@ -104,8 +104,8 @@
                     {
                         if (username == student.Username && password == student.Password && accessCode == validAccessCode.Code)
                         {
-                            var entry = new Attendence { Course_Id = validAccessCode.Id, Student_Id = student.Id, CreatedDate = DateTime.UtcNow };
-                            dbContext.Attendences.Add(entry);
+                            var entry = new Attendance { Course_Id = validAccessCode.Id, Student_Id = student.Id, CreatedDate = DateTime.UtcNow };
+                            dbContext.Attendances.Add(entry);
                             dbContext.SaveChanges();
 
                             UserInfoService.UserInfo.IsStudent = true;

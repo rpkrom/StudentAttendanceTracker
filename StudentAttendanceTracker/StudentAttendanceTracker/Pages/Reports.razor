@@ -62,7 +62,7 @@
     private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; }
     private List<Course> courses = new List<Course>(); 
     private Course selectedCourse = new Course();
-    private List<Attendence> attendences = new List<Attendence>();
+    private List<Attendance> attendences = new List<Attendance>();
     //private AlertPopup alertPopup;
     public bool DisplayAlert = false;
 
@@ -109,7 +109,7 @@
     {
         using (var dbContext = new ApplicationDbContext(DbContextOptions))
         {
-            attendences = dbContext.Attendences
+            attendences = dbContext.Attendances
                 .Where(r => r.Course_Id == selectedCourse.Id)
                 .ToList();
         }
@@ -127,7 +127,7 @@
         DisplayAlert = false; 
     }
 
-    private void PrintReportsToFile(List<Attendence> reports)
+    private void PrintReportsToFile(List<Attendance> reports)
     {
         // Define the file path and name for the text file
         string downloadsFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";

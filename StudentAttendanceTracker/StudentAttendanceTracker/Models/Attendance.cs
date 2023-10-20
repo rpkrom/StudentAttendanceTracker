@@ -1,6 +1,6 @@
 ﻿namespace StudentAttendanceTracker.Models
 {
-    public class Attendence
+    public class Attendance
     {
         public int Id { get; set; }
         public int Student_Id { get; set; }
