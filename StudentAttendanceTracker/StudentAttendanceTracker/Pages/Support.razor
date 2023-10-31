@@ -1,0 +1,80 @@
+﻿@page "/supportquestions"
+
+@using System.Collections.Generic
+@using System.Data.SqlClient
+@using Microsoft.AspNetCore.Components
+@using Microsoft.Extensions.Configuration
+@inject UserInfoService UserInfoService
+
+<h3>Support</h3>
+<!-- Robert Price - Developer:
+    This page is for adding support questions and concerns
+-->
+
+<div class="form-group">
+    <input class="form-control" style="width: 300px;" @bind="newSupport.Title" placeholder="Title" />
+    <textarea class="form-control" rows="4" style="width: 300px;" @bind="newSupport.Body" placeholder="Body"></textarea>
+
+    <button class="btn btn-primary" @onclick="AddSupportQuestions">Add Support Question</button>
+</div>
+
+@*The below block will show a support table if the logged in user is an admin*@
+@if (UserInfoService.UserInfo.IsAdmin)
+{
+    <h3>Support Questions</h3>
+    <br />
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Body</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var q in supportQs)
+            {
+                <tr>
+                    <td>@q.Title</td>
+                    <td>@q.Body</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    [Inject]
+    private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; }
+    private List<SupportQuestions> supportQs = new List<SupportQuestions>();
+    private SupportQuestions newSupport = new SupportQuestions();
+
+    // Load SupportQuestions when the component initializes
+    protected override void OnInitialized()
+    {
+        LoadSupportQuestions();
+    }
+
+    // Load SupportQuestions from the database
+    private void LoadSupportQuestions()
+    {
+        using (var dbContext = new ApplicationDbContext(DbContextOptions))
+        {
+            supportQs = dbContext.SupportQuestions.ToList();
+        }
+    }
+
+    // Add a new SupportQuestions to the database
+    private void AddSupportQuestions()
+    {
+        using (var dbContext = new ApplicationDbContext(DbContextOptions))
+        {
+            dbContext.SupportQuestions.Add(newSupport);
+            dbContext.SaveChanges();
+
+            newSupport = new SupportQuestions(); // Clear the input fields
+            LoadSupportQuestions(); // Refresh the SupportQuestions list
+        }
+    }
+
+}

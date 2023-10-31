@@ -13,7 +13,7 @@ Developer: Robert Price*@
 
 <div class="form-group">
     <label for="courseDropdown">Select a Course:</label>
-    <select id="courseDropdown" class="form-control" @bind="selectedCourseId">
+    <select id="courseDropdown" style="width: 300px;" class="form-control" @bind="selectedCourseId">
         @foreach (var course in courses)
         {
             <option value="@course.Id">@course.Course_Name</option>

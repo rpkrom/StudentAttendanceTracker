@@ -46,6 +46,17 @@ CREATE TABLE [dbo].[Instructors](
 	[ID] [int] IDENTITY(1,1) NOT NULL
 ) ON [PRIMARY]
 GO
+/****** Object:  Table [dbo].[SupportQuestions]    Script Date: 10/4/2023 1:10:51 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].SupportQuestions(
+	[Title] [nvarchar](50) NOT NULL,
+	[Body] [nvarchar](500) NOT NULL,
+	[ID] [int] IDENTITY(1,1) NOT NULL
+) ON [PRIMARY]
+GO
 /****** Object:  Table [dbo].[Students]    Script Date: 10/4/2023 1:10:51 PM ******/
 SET ANSI_NULLS ON
 GO

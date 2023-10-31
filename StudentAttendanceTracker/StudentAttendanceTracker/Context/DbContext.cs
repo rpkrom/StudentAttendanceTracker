@@ -16,4 +16,5 @@ public class ApplicationDbContext : DbContext
     public DbSet<AccessCode> AccessCodes { get; set; }
     public DbSet<Course> Courses { get; set; }
     public DbSet<Attendance> Attendances { get; set; }
+    public DbSet<SupportQuestions> SupportQuestions { get; set; }
 }
