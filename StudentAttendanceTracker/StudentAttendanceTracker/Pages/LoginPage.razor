@@ -60,8 +60,8 @@
 
 @code {
     [Inject]
-    private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; }
-
+    private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; } // db context used across the app for CRUD
+    //private properties used in the page
     private string username { get; set; }
     private string password { get; set; }
     private string selectedRole { get; set; }
@@ -71,24 +71,26 @@
 
     private bool IsInstructorChecked => selectedRole == "instructor";
     private bool IsStudentChecked => selectedRole == "student";
-
+    //default on init method to set a state variable for selectedRole
     protected override void OnInitialized()
     {
         selectedRole = "instructor"; // Set the default selected role
     }
-
+    // On change handler to update the selected role of the user and show the access code field
     private void ToggleAccessCodeField(ChangeEventArgs e)
     {
         selectedRole = e.Value.ToString();
     }
-
+    // button click handler for triggering applicable methods below
+    // also is asynchronous in order to free up the thread in the UI
     private async Task LoginClick()
     {
         isLoading = true;
         await LoginUser();
         isLoading = false;
     }
-
+    //LoginUser() will check the database for a valid user/password and if applicable an access code, if all of those
+    // are valid, the user is logged into the application
     private async Task LoginUser()
     {
         using (var dbContext = new ApplicationDbContext(DbContextOptions))
@@ -142,7 +144,7 @@
         }
 
     }
-
+    // Navigate() will navigate to the landing page if the user is an admin
     private void Navigate()
     {
         NavigationManager.NavigateTo("/landing", true);

@@ -1,5 +1,6 @@
 ﻿namespace StudentAttendanceTracker.Models
 {
+    // Robert Price - Developer
     //This model is used for the CRUD for Instructors
     public class Instructor
     {

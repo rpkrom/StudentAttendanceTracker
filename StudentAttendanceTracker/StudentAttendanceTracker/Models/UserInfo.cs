@@ -1,5 +1,6 @@
 ﻿namespace StudentAttendanceTracker.Models
 {
+    // Robert Price - Developer
     //This model is used for  Users Information
     public class UserInfo
     {
