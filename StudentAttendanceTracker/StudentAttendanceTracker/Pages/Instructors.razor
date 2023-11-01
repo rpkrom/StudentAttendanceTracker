@@ -8,6 +8,7 @@
 <h3>Instructors</h3>
 <!-- Robert Price - Developer:
     This page is for adding and deleting Instructors from the system
+    See below comments for additional info
 -->
 <!-- Table to display instructors -->
 <table class="table table-bordered">
@@ -45,6 +46,8 @@
     private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; }
     private List<Instructor> instructors = new List<Instructor>();
     private Instructor newInstructor = new Instructor();
+
+    //The below code allows the management of Instructors
 
     // Load Instructors when the component initializes
     protected override void OnInitialized()

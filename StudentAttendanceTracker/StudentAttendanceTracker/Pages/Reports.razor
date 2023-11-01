@@ -6,7 +6,10 @@
 @*<AlertPopup @ref="alertPopup"></AlertPopup>*@
 
 <h3>Reports</h3>
- @*This page is for generating attendance reports based on which course is selected*@
+ @*This page is for generating attendance reports based on which course is selected
+
+ See below comments for additional info
+ *@
 <!-- Dropdown for course_name -->
 <div class="form-group">
     <label for="courseName">Select Course:</label>
@@ -57,7 +60,7 @@
     </table>
 }
 
-@code {
+@code { //The below code allows generating and printing of report data
     [Inject]
     private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; }
     private List<Course> courses = new List<Course>(); 

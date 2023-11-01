@@ -9,6 +9,7 @@
 <h3>Support</h3>
 <!-- Robert Price - Developer:
     This page is for adding support questions and concerns
+    See below comments for additional info
 -->
 
 <div class="form-group">
@@ -48,6 +49,8 @@
     private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; }
     private List<SupportQuestions> supportQs = new List<SupportQuestions>();
     private SupportQuestions newSupport = new SupportQuestions();
+
+    //The below blocks will create a new support request and store it in a table so that an admin can see it
 
     // Load SupportQuestions when the component initializes
     protected override void OnInitialized()

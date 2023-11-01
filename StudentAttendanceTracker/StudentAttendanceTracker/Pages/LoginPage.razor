@@ -5,6 +5,7 @@
 <h3>Login</h3>
 <!-- Robert Price - Developer:
     This page is for all users to login to, next phase is to implement better routing so that users only see what they need to see
+    See below comments for additional info
 -->
 <div class="vertical-form">
     <div class="form-group">
@@ -58,12 +59,12 @@
 </style>
 
 
-@code {
+@code { // The below code handles all login functionailty
     [Inject]
     private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; } // db context used across the app for CRUD
     //private properties used in the page
     private string username { get; set; }
-    private string password { get; set; }
+    private string password { get; set; } 
     private string selectedRole { get; set; }
     private string accessCode { get; set; }
 
