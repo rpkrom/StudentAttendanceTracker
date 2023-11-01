@@ -6,18 +6,22 @@
 @using Microsoft.Extensions.Configuration
 @inject UserInfoService UserInfoService
 
-<h3>Support</h3>
+@*<h3>Support</h3>*@
 <!-- Robert Price - Developer:
     This page is for adding support questions and concerns
     See below comments for additional info
 -->
 
-<div class="form-group">
-    <input class="form-control" style="width: 300px;" @bind="newSupport.Title" placeholder="Title" />
-    <textarea class="form-control" rows="4" style="width: 300px;" @bind="newSupport.Body" placeholder="Body"></textarea>
+@if (!UserInfoService.UserInfo.IsAdmin)
+{
+    <h3>Support Questions</h3>
+    <div class="form-group">
+        <input class="form-control" style="width: 300px;" @bind="newSupport.Title" placeholder="Title" />
+        <textarea class="form-control" rows="4" style="width: 300px;" @bind="newSupport.Body" placeholder="Body"></textarea>
 
-    <button class="btn btn-primary" @onclick="AddSupportQuestions">Add Support Question</button>
-</div>
+        <button class="btn btn-primary" @onclick="AddSupportQuestions">Add Support Question</button>
+    </div>
+}
 
 @*The below block will show a support table if the logged in user is an admin*@
 @if (UserInfoService.UserInfo.IsAdmin)
