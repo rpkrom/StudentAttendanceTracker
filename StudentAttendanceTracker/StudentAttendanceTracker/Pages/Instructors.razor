@@ -37,6 +37,7 @@
 <h4>Add Instructor</h4>
 <div class="form-group">
     <input class="form-control" style="width: 300px;"  @bind="newInstructor.Username" placeholder="Username" />
+    <span class="error" style="color: red;">@usernameError</span>
     <input class="form-control" style="width: 300px;" @bind="newInstructor.Password" placeholder="Password" />
     <button class="btn btn-primary" @onclick="AddInstructor">Add Instructor</button>
 </div>
@@ -46,6 +47,9 @@
     private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; }
     private List<Instructor> instructors = new List<Instructor>();
     private Instructor newInstructor = new Instructor();
+    // Error message for username validation
+    private string usernameError = "";
+
 
     //The below code allows the management of Instructors
 
@@ -67,6 +71,13 @@
     // Add a new Instructor to the database
     private void AddInstructor()
     {
+        // Validate username
+        if (string.IsNullOrWhiteSpace(newInstructor.Username) || newInstructor.Username.Length < 5)
+        {
+            usernameError = "Username must be at least 5 characters long.";
+            return;
+        }
+
         using (var dbContext = new ApplicationDbContext(DbContextOptions))
         {
             dbContext.Instructors.Add(newInstructor);

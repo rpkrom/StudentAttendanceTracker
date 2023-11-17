@@ -19,6 +19,7 @@ Developer: Robert Price*@
             <option value="@course.Id">@course.Course_Name</option>
         }
     </select>
+    <span class="error" style="color: red;">@selectedCourseError</span>
 </div>
 
 <button class="btn btn-primary" @onclick="GenerateCode">Generate Code</button>
@@ -55,6 +56,7 @@ Developer: Robert Price*@
     private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; }
     private List<Course> courses = new List<Course>();
     private int selectedCourseId;
+    private string selectedCourseError = "";
 
 
     // Load Courses when the component initializes
@@ -89,6 +91,14 @@ Developer: Robert Price*@
 
     private void GenerateCode()
     {
+        if (selectedCourseId == 0)
+        {
+            selectedCourseError = "You must select a course.";
+            return;
+        }
+
+        // Clear any previous error
+        selectedCourseError = "";
         if (selectedCourseId != 0)
         {
             using (var dbContext = new ApplicationDbContext(DbContextOptions))

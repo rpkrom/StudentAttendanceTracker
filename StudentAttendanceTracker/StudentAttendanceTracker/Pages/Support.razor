@@ -17,6 +17,7 @@
     <h3>Support Questions</h3>
     <div class="form-group">
         <input class="form-control" style="width: 300px;" @bind="newSupport.Title" placeholder="Title" />
+        <span class="error" style="color: red;">@supportError</span>
         <textarea class="form-control" rows="4" style="width: 300px;" @bind="newSupport.Body" placeholder="Body"></textarea>
 
         <button class="btn btn-primary" @onclick="AddSupportQuestions">Add Support Question</button>
@@ -54,6 +55,9 @@
     private List<SupportQuestions> supportQs = new List<SupportQuestions>();
     private SupportQuestions newSupport = new SupportQuestions();
 
+    // Error message for username validation
+    private string supportError = "";
+
     //The below blocks will create a new support request and store it in a table so that an admin can see it
 
     // Load SupportQuestions when the component initializes
@@ -74,6 +78,15 @@
     // Add a new SupportQuestions to the database
     private void AddSupportQuestions()
     {
+        // Validate username
+        if (string.IsNullOrWhiteSpace(newSupport.Title) || newSupport.Title.Length < 5)
+        {
+            supportError = "Title must be at least 5 characters long.";
+            return;
+        }
+
+        // Clear any previous error
+        supportError = "";
         using (var dbContext = new ApplicationDbContext(DbContextOptions))
         {
             dbContext.SupportQuestions.Add(newSupport);

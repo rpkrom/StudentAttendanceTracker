@@ -39,6 +39,7 @@
 <h4>Add Student</h4>
 <div class="form-group">
     <input class="form-control" style="width: 300px;" @bind="newStudent.Username" placeholder="Username" />
+    <span class="error" style="color: red;">@usernameError</span>
     <input class="form-control" style="width: 300px;" @bind="newStudent.Password" placeholder="Password" />
     <button class="btn btn-primary" @onclick="AddStudent">Add Student</button>
 </div>
@@ -48,6 +49,9 @@
     private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; }
     private List<Student> students = new List<Student>();
     private Student newStudent = new Student();
+
+    // Error message for username validation
+    private string usernameError = "";
 
     // Load Students when the component initializes
     protected override void OnInitialized()
@@ -66,7 +70,16 @@
 
     // Add a new Student to the database
     private void AddStudent()
-    {
+    {   
+        // Validate username
+        if (string.IsNullOrWhiteSpace(newStudent.Username) || newStudent.Username.Length < 5)
+        {
+            usernameError = "Username must be at least 5 characters long.";
+            return;
+        }
+
+        // Clear any previous error
+        usernameError = "";
         using (var dbContext = new ApplicationDbContext(DbContextOptions))
         {
             dbContext.Students.Add(newStudent);

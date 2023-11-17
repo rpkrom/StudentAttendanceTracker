@@ -19,6 +19,7 @@
             <option value="@course.Id">@course.Course_Name</option>
         }
     </select>
+    <span class="error" style="color: red;">@selectedCourseError</span>
 </div>
 
 <!-- Button to generate reports -->
@@ -60,7 +61,8 @@
     </table>
 }
 
-@code { //The below code allows generating and printing of report data
+@code {
+    //The below code allows generating and printing of report data
     [Inject]
     private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; }
     private List<Course> courses = new List<Course>(); 
@@ -68,6 +70,8 @@
     private List<Attendance> attendences = new List<Attendance>();
     //private AlertPopup alertPopup;
     public bool DisplayAlert = false;
+    // Error message for username validation
+    private string selectedCourseError = "";
 
     protected override void OnInitialized()
     {
@@ -110,6 +114,15 @@
     // Generate reports when the button is clicked
     private void GenerateReports()
     {
+        if (selectedCourse.Id == 0)
+        {
+            selectedCourseError = "You must select a course.";
+            return;
+        }
+
+        // Clear any previous error
+        selectedCourseError = "";
+
         using (var dbContext = new ApplicationDbContext(DbContextOptions))
         {
             attendences = dbContext.Attendances
@@ -120,6 +133,15 @@
 
     private void SaveReportsToFile()
     {
+        if (selectedCourse.Id == 0)
+        {
+            selectedCourseError = "You must select a course.";
+            return;
+        }
+
+        // Clear any previous error
+        selectedCourseError = "";
+
         PrintReportsToFile(attendences);
         //alertPopup.Show("File download complete. Check your downloads folder.");
         DisplayAlert = true;
