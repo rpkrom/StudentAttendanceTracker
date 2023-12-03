@@ -77,6 +77,11 @@
             usernameError = "Username must be at least 5 characters long.";
             return;
         }
+        if (string.IsNullOrWhiteSpace(newStudent.Password) || newStudent.Password.Length < 5)
+        {
+            usernameError = "Password must be at least 5 characters long.";
+            return;
+        }
 
         // Clear any previous error
         usernameError = "";
