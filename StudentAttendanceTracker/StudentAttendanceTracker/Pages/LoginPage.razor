@@ -33,6 +33,7 @@
         <div class="form-group">
             <label for="accessCode">Access Code</label>
             <input id="accessCode" class="form-control" style="width: 300px;" @bind-value="accessCode" />
+            <span class="error" style="color: red;">@loginError</span>
         </div>
     }
     <button class="btn btn-primary" @onclick="LoginClick" disabled="@isLoading">
@@ -59,14 +60,16 @@
 </style>
 
 
-@code { // The below code handles all login functionailty
+@code {
+    // The below code handles all login functionailty
     [Inject]
     private DbContextOptions<ApplicationDbContext> DbContextOptions { get; set; } // db context used across the app for CRUD
-    //private properties used in the page
+                                                                                  //private properties used in the page
     private string username { get; set; }
     private string password { get; set; } 
     private string selectedRole { get; set; }
     private string accessCode { get; set; }
+    private string loginError = "";
 
     private bool isLoading = false;
 
@@ -103,8 +106,8 @@
                     var student = await dbContext.Students.FirstOrDefaultAsync(i => i.Username == username && i.Password == password);
                     var validAccessCode = await dbContext.AccessCodes.FirstOrDefaultAsync(c => c.Code == accessCode);
 
-                    if (student != null)
-                    {
+                    if (student != null && validAccessCode != null)
+                    {                        
                         if (username == student.Username && password == student.Password && accessCode == validAccessCode.Code)
                         {
                             var entry = new Attendance { Course_Id = validAccessCode.Id, Student_Id = student.Id, CreatedDate = DateTime.UtcNow };
@@ -113,9 +116,14 @@
 
                             UserInfoService.UserInfo.IsStudent = true;
                             NavigationManager.NavigateTo("/landing", true);
-                        }
+                        }                        
                     }
-
+                    else
+                    {
+                        loginError = "Username/Password or Access Code is not valid.";
+                        return;
+                    }
+                    loginError = "";
                 }
                 else if (selectedRole == "instructor")
                 {
@@ -134,6 +142,7 @@
                         UserInfoService.UserInfo.IsAdmin = true;
                         NavigationManager.NavigateTo("/students", true);
                     }
+                    loginError = "";
                 }
             }
             catch (Exception ex)
